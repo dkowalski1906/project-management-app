@@ -1,0 +1,116 @@
+<div class="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 gap-6">
+  <div class="w-full max-w-5xl flex justify-start">
+    <button
+      (click)="cancelButton()"
+      class="text-slate-500 font-bold flex items-center gap-2 hover:text-slate-800 transition-all group"
+    >
+      <mat-icon class="group-hover:-translate-x-1 transition-transform">arrow_back</mat-icon>
+      Retour
+    </button>
+  </div>
+
+  <div
+    class="bg-white p-10 rounded-[2rem] shadow-xl shadow-slate-200/60 w-full max-w-5xl flex flex-col gap-12"
+  >
+    <div class="flex justify-between items-start">
+      <div class="flex flex-col gap-6">
+        <div class="flex items-center gap-4">
+          <h1 class="font-bold text-slate-800 text-4xl">{{task.title}}</h1>
+          <span class="font-bold text-slate-400 text-2xl">#{{task.number}}</span>
+        </div>
+        <div class="flex flex-col gap-3">
+          <p class="font-bold text-blue-600 text-xl">Description</p>
+          <p class="text-slate-500 text-lg">{{task.description}}</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <p
+          class="bg-red-50 py-2 px-4 border border-red-100 text-red-600 uppercase font-extrabold rounded-lg text-sm tracking-widest"
+        >
+          {{task.status}}
+        </p>
+        <button class="text-slate-400 hover:text-blue-600 transition-colors">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button class="text-slate-400 hover:text-red-600 transition-colors">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-8">
+      <div class="flex flex-col gap-3">
+        <p class="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Deadline</p>
+        <div
+          class="bg-slate-50 border border-slate-100 rounded-2xl p-4 text-slate-700 font-semibold"
+        >
+          {{task.deadline}}
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <p class="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Assignée à</p>
+        <div
+          class="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex items-center gap-3 text-slate-700 font-semibold"
+        >
+          <mat-icon class="text-slate-400 scale-90">person_outline</mat-icon>
+          {{task.assignedTo}}
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-3">
+        <p class="text-xs font-bold text-slate-400 uppercase tracking-[0.2em]">Créée par</p>
+        <div
+          class="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex items-center gap-3 text-slate-700 font-semibold"
+        >
+          <mat-icon class="text-slate-400 scale-90">person_outline</mat-icon>
+          {{task.createdBy}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/60 w-full max-w-5xl p-10 flex flex-col gap-10"
+  >
+    <div class="flex items-center gap-3">
+      <mat-icon class="text-blue-600">chat_bubble_outline</mat-icon>
+      <h2 class="text-xl font-bold text-slate-800">Commentaires</h2>
+      <span class="bg-slate-100 text-slate-500 px-3 py-0.5 rounded-full text-sm font-bold">
+        {{ comments.length }}
+      </span>
+    </div>
+
+    <div class="flex gap-4">
+      <div
+        class="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold shrink-0"
+      >
+        A
+      </div>
+      <div class="flex flex-col gap-4 w-full items-end">
+        <textarea
+          [(ngModel)]="newCommentText"
+          placeholder="Ajouter un commentaire..."
+          rows="3"
+          class="w-full bg-slate-50 border-none rounded-2xl p-4 text-slate-700 placeholder:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all resize-none"
+        ></textarea>
+        <button
+          (click)="sendComment()"
+          class="bg-blue-400 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-xl flex items-center gap-2 transition-all shadow-md shadow-blue-100"
+        >
+          <mat-icon class="scale-90">send</mat-icon>
+          Envoyer
+        </button>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-6 pt-6 border-t border-slate-50">
+      @for (c of comments; track c.date) {
+      <app-commentary [comment]="c"></app-commentary>
+      } @empty {
+      <p class="text-slate-400 text-center py-4">Aucun commentaire pour le moment.</p>
+      }
+    </div>
+  </div>
+</div>

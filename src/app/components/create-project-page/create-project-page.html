@@ -1,12 +1,12 @@
 <div class="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 gap-6">
   
-  <div class="max-w-xl w-full flex justify-start">
+  <div class="w-full max-w-xl flex justify-start">
     <button
       (click)="cancelButton()"
-      class="font-bold text-slate-500 tracking-wider py-2 flex items-center gap-2 hover:text-blue-700 transition-all group"
+      class="text-slate-500 font-bold flex items-center gap-2 hover:text-slate-800 transition-all group"
     >
-      <mat-icon class="text-slate-400 group-hover:text-blue-700">arrow_back</mat-icon>
-      Annuler
+      <mat-icon class="group-hover:-translate-x-1 transition-transform">arrow_back</mat-icon>
+      Retour
     </button>
   </div>
 
@@ -48,7 +48,7 @@
             placeholder="07/01/2026"
             class="w-full bg-slate-50 border-none rounded-2xl p-4 text-slate-700 placeholder:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
           />
-          <mat-icon class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-600">calendar_today</mat-icon>
+          <mat-icon class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">calendar_today</mat-icon>
           <mat-datepicker #picker></mat-datepicker>
         </div>
       </div>
