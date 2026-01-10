@@ -1,0 +1,12 @@
+[
+  {
+    "author": "Alice Martin",
+    "text": "Super projet ! La stack technique semble très solide pour ce genre d'application.",
+    "date": "2026-01-07T10:30:00.000Z"
+  },
+  {
+    "author": "Marc Lefebvre",
+    "text": "N'oubliez pas d'ajouter les variables d'environnement pour la connexion à la base de données PostgreSQL.",
+    "date": "2026-01-07T14:15:22.000Z"
+  }
+]

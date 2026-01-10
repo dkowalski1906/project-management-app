@@ -1,0 +1,65 @@
+<div class="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-4 gap-6">
+  
+  <div class="w-full max-w-xl flex justify-start">
+    <button
+      (click)="cancelButton()"
+      class="text-slate-500 font-bold flex items-center gap-2 hover:text-slate-800 transition-all group"
+    >
+      <mat-icon class="group-hover:-translate-x-1 transition-transform">arrow_back</mat-icon>
+      Retour
+    </button>
+  </div>
+
+  <div class="bg-white rounded-[2rem] shadow-xl shadow-slate-200/60 w-full max-w-xl p-10 flex flex-col gap-8">
+    
+    <h1 class="text-3xl font-bold text-slate-800">Créer un nouveau projet</h1>
+
+    <div class="flex flex-col gap-6">
+      <div class="flex flex-col gap-2">
+        <label for="title" class="text-xs font-bold text-slate-400 uppercase tracking-widest">Titre du projet</label>
+        <input
+          id="title"
+          type="text"
+          [(ngModel)]="title"
+          placeholder="Ex: Projet Spring Boot"
+          class="bg-slate-50 border-none rounded-2xl p-4 text-slate-700 placeholder:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+        />
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="description" class="text-xs font-bold text-slate-400 uppercase tracking-widest">Description</label>
+        <textarea
+          id="description"
+          [(ngModel)]="description"
+          placeholder="Décrivez les objectifs et technos..."
+          rows="4"
+          class="bg-slate-50 border-none rounded-2xl p-4 text-slate-700 placeholder:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all resize-none"
+        ></textarea>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label for="deadline" class="text-xs font-bold text-slate-400 uppercase tracking-widest">Date limite (Deadline)</label>
+        <div class="relative cursor-pointer" (click)="picker.open()">
+          <input
+            id="deadline"
+            readonly
+            [matDatepicker]="picker"
+            [(ngModel)]="deadline"
+            placeholder="07/01/2026"
+            class="w-full bg-slate-50 border-none rounded-2xl p-4 text-slate-700 placeholder:text-slate-300 focus:ring-2 focus:ring-blue-500 outline-none transition-all cursor-pointer"
+          />
+          <mat-icon class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">calendar_today</mat-icon>
+          <mat-datepicker #picker></mat-datepicker>
+        </div>
+      </div>
+    </div>
+
+    <button
+      (click)="createProject()"
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-blue-200"
+    >
+      <mat-icon>add_circle_outline</mat-icon>
+      Créer le projet
+    </button>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+[
+  {
+    "title": "Mise en place de la BDD",
+    "number": 1001,
+    "description": "Initialiser PostgreSQL et configurer les schémas de base.",
+    "assignedTo": "Mike",
+    "createdBy": "Admin",
+    "status": "A faire",
+    "deadline": "2026-06-30"
+  },
+  {
+    "title": "Configuration API",
+    "number": 1002,
+    "description": "Mettre en place les endpoints CRUD pour les utilisateurs.",
+    "assignedTo": "Alice",
+    "createdBy": "Admin",
+    "status": "En cours",
+    "deadline": "2026-07-15"
+  },
+  {
+    "title": "Design System",
+    "number": 1003,
+    "description": "Créer la bibliothèque de composants Tailwind et Angular.",
+    "assignedTo": "Sophie",
+    "createdBy": "Mike",
+    "status": "Terminé",
+    "deadline": "2026-05-20"
+  }
+]
