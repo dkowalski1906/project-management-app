@@ -1,0 +1,86 @@
+<div class="min-h-screen font-sans text-slate-800 dark:text-slate-100 transition-colors bg-slate-50 dark:bg-slate-950">
+  <!-- Sidebar overlay -->
+  <div
+    class="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 transition-opacity"
+    [class.opacity-100]="isSidebarOpen()"
+    [class.opacity-0]="!isSidebarOpen()"
+    [class.pointer-events-none]="!isSidebarOpen()"
+    (click)="closeSidebar()"
+  ></div>
+
+  <!-- Sidebar -->
+  <div
+    class="fixed top-0 left-0 h-full w-72 bg-white dark:bg-slate-900 shadow-2xl z-50 transform transition-transform duration-300"
+    [class.translate-x-0]="isSidebarOpen()"
+    [class.-translate-x-full]="!isSidebarOpen()"
+  >
+    <div class="p-6 flex justify-between items-center border-b dark:border-slate-800">
+      <h2 class="font-bold text-2xl dark:text-white">Menu</h2>
+      <button
+        type="button"
+        (click)="closeSidebar()"
+        class="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl cursor-pointer"
+      >
+        Close Sidebar Icon
+      </button>
+    </div>
+
+    <div class="p-4 space-y-3">
+      <a
+        routerLink="/projects"
+        routerLinkActive="bg-slate-50 dark:bg-slate-800"
+        (click)="closeSidebar()"
+        class="w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 font-bold transition-all cursor-pointer"
+      >
+        Project Icon
+        Projets
+      </a>
+
+      <!-- prêt pour plus tard -->
+      <!--
+      <button
+        type="button"
+        class="w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 font-bold transition-all cursor-pointer"
+      >
+        <app-lucide-icon name="plus-circle" class="w-[22px] h-[22px]"></app-lucide-icon>
+        Nouveau projet
+      </button>
+      -->
+    </div>
+
+    <div class="absolute bottom-0 w-full p-6 border-t dark:border-slate-800">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">A</div>
+        <div>
+          <p class="font-bold dark:text-white text-sm">Alexandre</p>
+          <p class="text-xs text-slate-500">Admin</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-7xl mx-auto p-4 md:p-8 min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="flex justify-between items-center mb-10">
+      <button
+        type="button"
+        (click)="openSidebar()"
+        class="p-3 rounded-2xl bg-white dark:bg-slate-800 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-700 transition-all active:scale-95 cursor-pointer"
+      >
+        Menu Icon
+      </button>
+
+      <button
+        type="button"
+        (click)="toggleTheme()"
+        class="p-3 rounded-2xl bg-white dark:bg-slate-800 border-2 dark:border-slate-700 shadow-sm transition-all active:scale-95 cursor-pointer"
+      >
+        @if (isDarkMode()) {
+        } @else {
+        }
+      </button>
+    </header>
+
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<!-- src/app/projects/pages/projects-dashboard-page/projects-dashboard-page.html -->
+
+<div class="flex-1 flex flex-col">
+  <!-- Header -->
+  <div class="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
+    <div>
+      <h1 class="text-4xl md:text-5xl font-light text-slate-400 dark:text-slate-500 tracking-tight mb-2">
+        Hello <span class="font-bold text-slate-800 dark:text-white">Alex!</span>
+      </h1>
+      <p class="text-xl text-blue-600 dark:text-blue-400 font-medium">Voici tes projets</p>
+    </div>
+
+    <!-- Keep this button for later routing (/projects/new). For now it can just do nothing or toggle a placeholder -->
+    <button
+      type="button"
+      class="flex items-center gap-2 px-6 py-3.5 bg-blue-600 text-white rounded-2xl font-bold shadow-lg shadow-blue-500/20 active:scale-95 transition-all"
+    >
+      new project icon + Nouveau projet
+    </button>
+  </div>
+
+  <!-- Search + Filters -->
+  <div class="flex gap-4 mb-8">
+    <div class="relative flex-1 group">
+      <input
+        type="text"
+        placeholder="Rechercher un projet..."
+        class="w-full pl-4 pr-4 py-4 rounded-2xl border-2 bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-700 dark:text-white outline-none focus:border-blue-500 transition-all shadow-sm"
+        (input)="store.setSearchTerm(($any($event.target)).value)"
+      />
+    </div>
+
+    <button
+      type="button"
+      class="p-4 bg-white dark:bg-slate-800 border-2 rounded-2xl border-slate-100 dark:border-slate-700 dark:text-white hover:text-blue-500 transition-all shadow-sm"
+      (click)="openFilters()"
+    >
+      Filtres icon
+    </button>
+  </div>
+
+  <!-- Filter modal -->
+  <app-project-filter-modal
+    [isOpen]="isFilterOpen"
+    [filters]="store.filters()"
+    [users]="users"
+    (close)="closeFilters()"
+    (apply)="applyFilters($event)"
+  ></app-project-filter-modal>
+
+  <!-- List -->
+  <div class="space-y-6">
+    @for (p of store.filteredProjects(); track p.id) {
+      <app-project-card [project]="p" (open)="openProject($event)"></app-project-card>
+    }
+  </div>
+
+  <!-- Empty state -->
+  @if (store.filteredProjects().length === 0) {
+    <div
+      class="mt-10 p-8 rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 bg-slate-50/50 dark:bg-slate-900/20"
+    >
+      Aucun projet ne correspond aux filtres / recherche.
+    </div>
+  }
+</div>
