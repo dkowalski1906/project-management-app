@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
+import { ProjectPageComponent } from './components/ProjectPage/project-page.component';
+import { TaskDetailComponent } from './components/TaskDetail/task-detail.component';
 
 export const routes: Routes = [
-  {
-    path: 'projects',
-    loadChildren: () =>
-      import('./projects/projects.routes').then(m => m.PROJECTS_ROUTES),
-  },
+    { path: 'project', component: ProjectPageComponent },
+    { path: 'task/:id', component: TaskDetailComponent },
 ];
