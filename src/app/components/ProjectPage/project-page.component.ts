@@ -1,18 +1,19 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { 
-  DragDropModule, 
-  CdkDragDrop, 
-  moveItemInArray, 
-  transferArrayItem 
+import {
+  DragDropModule,
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem
 } from '@angular/cdk/drag-drop';
 import { Router } from '@angular/router';
 import { ProjectService } from '../../service/project.service';
+import {LucideAngularModule} from 'lucide-angular';
 
 @Component({
   selector: 'app-project-page',
   standalone: true,
-  imports: [CommonModule, DragDropModule],
+  imports: [CommonModule, DragDropModule, LucideAngularModule],
   templateUrl: './project-page.component.html',
   styleUrls: ['./project-page.component.css']
 })

@@ -13,16 +13,16 @@
           <h1>{{ project.title }}</h1>
           <span class="deadline-badge">📅 Deadline : {{ project.deadline }}</span>
         </div>
-        
+
         <p class="description">{{ project.description }}</p>
-        
+
         <div class="progress-section">
           <div class="progress-bar-container">
             <div class="progress-fill" [style.width.%]="project.progress"></div>
           </div>
           <span class="progress-percent">{{ project.progress }}%</span>
         </div>
-        
+
         <div class="action-buttons">
           <button class="btn-primary">+ Nouvelle tâche</button>
           <button class="btn-secondary" (click)="addNewColumn()">📋 Nouvelle colonne</button>
@@ -59,16 +59,16 @@
     @for (column of project.columns; track column.id) {
       <div class="column">
         <h3 class="column-header">
-          <span class="dot" [style.background-color]="column.color"></span> 
-          {{ column.name }} 
+          <span class="dot" [style.background-color]="column.color"></span>
+          {{ column.name }}
           <span class="badge">{{ column.tasks.length }}</span>
         </h3>
 
-        <div class="drop-list" 
-            cdkDropList 
-            [cdkDropListData]="column.tasks" 
+        <div class="drop-list"
+            cdkDropList
+            [cdkDropListData]="column.tasks"
             (cdkDropListDropped)="drop($event)">
-          
+
           @for (task of column.tasks; track task.id) {
             <div class="task-card" cdkDrag (click)="openTask(task)">
               <div class="card-tags">
@@ -77,9 +77,9 @@
                   {{ task.priority }}
                 </span>
               </div>
-              
+
               <p class="task-name">{{ task.title }}</p>
-              
+
               <div class="card-footer">
                 <span class="assignee">👤 {{ task.assignee }}</span>
                 <span class="date">🕒 {{ task.date }}</span>
