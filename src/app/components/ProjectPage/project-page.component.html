@@ -52,38 +52,31 @@
   </header>
 
   <main class="kanban-board" 
-        cdkDropList 
-        cdkDropListOrientation="horizontal" 
-        (cdkDropListDropped)="dropColumn($event)"
-        [cdkDropListData]="project.columns">
-    
-    @for (column of project.columns; track column.id; let i = $index) {
-      <div class="column" cdkDrag>
-        <h3 class="column-header" cdkDragHandle>
-          <span class="dot" [style.background-color]="column.color"></span>
-          {{ column.name }}
-          <span class="badge">{{ column.tasks.length }}</span>
-        </h3>
+      cdkDropList 
+      cdkDropListOrientation="horizontal" 
+      [cdkDropListData]="project.columns"
+      (cdkDropListDropped)="dropColumn($event)"> @for (column of project.columns; track column.id; let i = $index) {
+        <div class="column" cdkDrag> <h3 class="column-header" cdkDragHandle> <span class="dot" [style.background-color]="column.color"></span>
+            {{ column.name }}
+            <span class="badge">{{ column.tasks.length }}</span>
+          </h3>
 
-        <div class="drop-list"
-            [id]="column.id"
-            cdkDropList
-            [cdkDropListData]="column.tasks"
-            [cdkDropListConnectedTo]="getConnectedLists()"
-            (cdkDropListDropped)="dropTask($event)">
-
-          @for (task of column.tasks; track task.id) {
-            <div class="task-card" cdkDrag (click)="openTask(task)">
-              <p class="task-name">{{ task.title }}</p>
-              <div class="card-footer">
-                <span class="assignee">👤 {{ task.assignedTo }}</span>
-                <span class="due-date">📅 {{ task.deadline }}</span>
+          <div class="drop-list"
+              [id]="column.id"
+              cdkDropList
+              [cdkDropListData]="column.tasks"
+              [cdkDropListConnectedTo]="getConnectedLists()"
+              (cdkDropListDropped)="dropTask($event, column)"> @for (task of column.tasks; track task.id) {
+              <div class="task-card" cdkDrag> <p class="task-name" (click)="openTask(task)">{{ task.title }}</p>
+                <div class="card-footer">
+                  <span class="assignee">👤 {{ task.assignedTo }}</span>
+                  <span class="due-date">📅 {{ task.deadline }}</span>
+                </div>
               </div>
-            </div>
-          }
+            }
+          </div>
         </div>
-      </div>
-    }
+      }
   </main>
 
   @if (showColumnModal) {

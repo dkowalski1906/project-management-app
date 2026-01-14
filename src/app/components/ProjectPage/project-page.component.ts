@@ -86,9 +86,19 @@ export class ProjectPageComponent implements OnInit {
   }
 
   // Drag & Drop des TÂCHES
-  dropTask(event: CdkDragDrop<Task[]>) {
+  dropTask(event: CdkDragDrop<Task[]>, targetColumn: Column) {
+    // 1. Sécurité : Si targetColumn est absent, on sort proprement
+    if (!targetColumn) {
+      console.error("Erreur : La colonne de destination est introuvable.");
+      return;
+    }
+
     if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+      moveItemInArray(
+        event.container.data, 
+        event.previousIndex, 
+        event.currentIndex
+      );
     } else {
       transferArrayItem(
         event.previousContainer.data,
@@ -96,7 +106,15 @@ export class ProjectPageComponent implements OnInit {
         event.previousIndex,
         event.currentIndex
       );
+
+      // 2. Mise à jour du statut sécurisée
+      const movedTask = event.container.data[event.currentIndex];
+      if (movedTask) {
+        movedTask.status = targetColumn.name;
+      }
     }
+
+    // 3. Recalcul du progrès (maintenant que le code ne crash plus)
     this.updateProgress();
   }
 
@@ -135,11 +153,26 @@ export class ProjectPageComponent implements OnInit {
   }
 
   updateProgress() {
-    if (!this.project) return;
-    const total = this.project.columns.reduce((acc, col) => acc + (col.tasks?.length || 0), 0);
-    const lastCol = this.project.columns.find(c => c.isLastOne === true);
-    const done = lastCol ? lastCol.tasks.length : 0;
-    this.project.progress = total > 0 ? Math.round((done / total) * 100) : 0;
+    if (!this.project || !this.project.columns) return;
+
+    // 1. Calculer le nombre total de tâches dans TOUTES les colonnes
+    const totalTasks = this.project.columns.reduce((acc, col) => {
+      return acc + (col.tasks ? col.tasks.length : 0);
+    }, 0);
+
+    // 2. Trouver la colonne marquée comme finale
+    const finalColumn = this.project.columns.find(c => c.isLastOne == true);
+    
+    // 3. Nombre de tâches terminées
+    const doneTasks = finalColumn ? finalColumn.tasks.length : 0;
+
+    // 4. Calcul du pourcentage (avec sécurité pour éviter NaN)
+    if (totalTasks > 0) {
+      this.project.progress = Math.round((doneTasks / totalTasks) * 100);
+    } else {
+      this.project.progress = 0;
+    }
+    
   }
 
   navigateBack() { this.location.back(); }
