@@ -25,5 +25,59 @@
                 "tasks": []
             }
         ]
+    },
+    {
+        "id": 2,
+        "name": "Project Beta",
+        "description": "This is the second project.",
+        "deadline": "30/06/2027",
+        "members": ["Sophie Dubois", "Jean Moreau"],
+        "columns": [
+            {
+                "id": "toDo",
+                "name": "À faire",
+                "color": "#FF5733",
+                "tasks": [4]
+            },
+            {
+                "id": "inProgress",
+                "name": "En cours",
+                "color": "#33C3FF",
+                "tasks": []
+            },
+            {
+                "id": "done",
+                "name": "Terminé",  
+                "color": "#75FF33",
+                "tasks": [5, 6]
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Project Gamma",
+        "description": "This is the third project.",
+        "deadline": "15/09/2027",
+        "members": ["Claire Bernard", "Paul Girard"],
+        "columns": [
+            {
+                "id": "toDo",
+                "name": "À faire",
+                "color": "#FF5733",
+                "tasks": []
+            },
+            {
+                "id": "inProgress",
+                "name": "En cours",
+                "color": "#33C3FF",
+                "tasks": [7, 8]
+            },
+            {
+                "id": "done",
+                "name": "Terminé",  
+                "color": "#75FF33",
+                "tasks": []
+            }
+        ]
     }
 ]

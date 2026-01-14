@@ -6,5 +6,5 @@ import { TaskPage } from './components/task-page/task-page';
 export const routes: Routes = [
   { path: '', component: ProjectsDashboardPageComponent },
     { path: 'project/:id', component: ProjectPageComponent },
-    { path: 'task/:id', component: TaskPage },
+    { path: 'task/:id', component: TaskPage }
 ];

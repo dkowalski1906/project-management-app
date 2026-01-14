@@ -31,5 +31,60 @@
     "deadline": "2026-05-20",
     "category": "Frontend",
     "priority": "HIGH"
+  },
+  {
+    "id": 4,
+    "title": "Page d'accueil",
+    "description": "Développer la page d'accueil responsive avec animations.",
+    "assignedTo": "John",
+    "createdBy": "Sophie",
+    "status": "A faire",
+    "deadline": "2026-08-01",
+    "category": "Frontend",
+    "priority": "HIGH"
+  },
+  {
+    "id": 5,
+    "title": "Tests unitaires",
+    "description": "Écrire des tests unitaires pour les services backend.",
+    "assignedTo": "Alice",
+    "createdBy": "Mike",
+    "status": "En cours",
+    "deadline": "2026-07-30",
+    "category": "Backend",
+    "priority": "MEDIUM"
+  },
+  {
+    "id": 6,
+    "title": "Intégration CI/CD",
+    "description": "Configurer GitHub Actions pour le déploiement automatique.",
+    "assignedTo": "Admin",
+    "createdBy": "Admin",
+    "status": "A faire",
+    "deadline": "2026-09-15",
+    "category": "DevOps",
+    "priority": "LOW"
+  },
+  {
+    "id": 7,
+    "title": "Page de gestion des projets",
+    "description": "Créer l'interface pour visualiser et gérer les projets.",
+    "assignedTo": "Sophie",
+    "createdBy": "John",
+    "status": "En cours",
+    "deadline": "2026-07-25",
+    "category": "Frontend",
+    "priority": "HIGH"
+  },
+  {
+    "id": 8,
+    "title": "Optimisation des performances",
+    "description": "Analyser et améliorer les temps de réponse de l'API.",
+    "assignedTo": "Mike",
+    "createdBy": "Alice",
+    "status": "A faire",
+    "deadline": "2026-08-20",
+    "category": "Backend",
+    "priority": "MEDIUM"
   }
 ]

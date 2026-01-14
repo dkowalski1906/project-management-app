@@ -1,10 +1,7 @@
 <div class="project-page">
   <header class="project-header">
     <div class="header-nav">
-      <button class="btn-back">← Retour</button>
-      <div class="nav-right">
-         <button class="theme-toggle">🌙</button>
-      </div>
+      <button class="btn-back" (click)="navigateBack()">← Retour</button>
     </div>
 
     <div class="header-content">
@@ -81,8 +78,8 @@
               <p class="task-name">{{ task.title }}</p>
 
               <div class="card-footer">
-                <span class="assignee">👤 {{ task.assignee }}</span>
-                <span class="date">🕒 {{ task.date }}</span>
+                <span class="assignee">👤 {{ task.assignedTo }}</span>
+                <span class="date">🕒 {{ task.deadline }}</span>
               </div>
             </div>
           }

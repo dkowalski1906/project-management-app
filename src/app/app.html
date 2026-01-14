@@ -1,3 +1,44 @@
-<main class="main">
-</main>
-<router-outlet />
+<div [class.dark]="isDarkMode" class="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100">
+  
+  @if (isSidebarOpen) {
+    <div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40" (click)="isSidebarOpen = false"></div>
+    
+    <aside class="fixed top-0 left-0 h-full w-72 bg-white dark:bg-slate-900 shadow-2xl z-50 flex flex-col animate-in slide-in-from-left duration-300">
+      <div class="p-6 flex justify-between items-center border-b dark:border-slate-800">
+        <h2 class="font-bold text-2xl dark:text-white">Menu</h2>
+        <button (click)="isSidebarOpen = false" class="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800">
+          <lucide-icon [img]="icons.x" size="20"></lucide-icon>
+        </button>
+      </div>
+
+      <nav class="p-4 space-y-3 flex-1">
+        <button (click)="navigateTo('/')" class="w-full flex items-center gap-4 px-5 py-4 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800 font-bold transition-all">
+          <lucide-icon [img]="icons.menu" size="22"></lucide-icon>
+          Tableau de bord
+        </button>
+        </nav>
+
+      <div class="p-6 border-t dark:border-slate-800 mt-auto flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">A</div>
+        <div>
+          <p class="font-bold text-sm">Alexandre</p>
+          <p class="text-xs text-slate-500">Admin</p>
+        </div>
+      </div>
+    </aside>
+  }
+
+  <header class="max-w-7xl mx-auto p-4 md:p-8 flex justify-between items-center">
+    <button (click)="isSidebarOpen = true" class="p-3 rounded-2xl bg-white dark:bg-slate-800 shadow-sm hover:bg-slate-100 transition-all">
+      <lucide-icon [img]="icons.menu" size="28"></lucide-icon>
+    </button>
+
+    <button (click)="toggleDarkMode()" class="p-3 rounded-2xl bg-white dark:bg-slate-800 border-2 dark:border-slate-700 shadow-sm">
+      <lucide-icon [img]="isDarkMode ? icons.sun : icons.moon" size="20"></lucide-icon>
+    </button>
+  </header>
+
+  <main class="max-w-7xl mx-auto p-4 md:p-8">
+    <router-outlet />
+  </main>
+</div>

@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { DragDropModule, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
@@ -13,6 +13,7 @@ export interface Task {
   description: string;
   assignedTo: string;
   status: string;
+  deadline: string;
 }
 
 export interface Column {
@@ -42,6 +43,7 @@ export interface Project {
 export class ProjectPageComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private location = inject(Location);
 
   project!: Project;
 
@@ -81,6 +83,10 @@ export class ProjectPageComponent implements OnInit {
     this.router.navigate(['/createTask', { projectId: this.project.id }]);
   }
 
+  navigateBack() {
+    this.location.back();
+  }
+
   updateProgress() {
     if (!this.project) return;
     const total = this.project.columns.reduce((acc, col) => acc + col.tasks.length, 0);
@@ -105,4 +111,6 @@ export class ProjectPageComponent implements OnInit {
     }
     this.updateProgress();
   }
+
+
 }
