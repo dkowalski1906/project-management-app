@@ -1,4 +1,4 @@
-<div class="project-page">
+<div class="project-page" *ngIf="project">
   <header class="project-header">
     <div class="header-nav">
       <button class="btn-back" (click)="navigateBack()">← Retour</button>
@@ -10,7 +10,6 @@
           <h1>{{ project.name }}</h1>
           <span class="deadline-badge">📅 Deadline : {{ project.deadline }}</span>
         </div>
-
         <p class="description">{{ project.description }}</p>
 
         <div class="progress-section">
@@ -22,7 +21,7 @@
 
         <div class="action-buttons">
           <button class="btn-primary">+ Nouvelle tâche</button>
-          <button class="btn-secondary" (click)="addNewColumn()">📋 Nouvelle colonne</button>
+          <button class="btn-secondary" (click)="openAddColumnModal()">📋 Nouvelle colonne</button>
         </div>
       </div>
 
@@ -33,53 +32,52 @@
             @for (member of project.members; track member) {
               <div class="avatar">{{ member[0] }}</div>
             }
-            <div class="avatar add-btn">+</div>
           </div>
         </div>
 
         <div class="stat-group">
-          <span class="label">RÉSUMÉ DES TÂCHES</span>
+          <span class="label">RÉSUMÉ</span>
           <div class="summary-card">
-          @for (col of project.columns; track col.id) {
-            <div class="summary-item">
-              <span class="count">{{ col.tasks.length }}</span>
-              <span class="dot" [style.background-color]="col.color"></span>
-            </div>
-          }
-        </div>
+            @for (col of project.columns; track col.id) {
+              <div class="summary-item">
+                <span class="count">{{ col.tasks.length }}</span>
+                <span class="dot" [style.background-color]="col.color"></span>
+                @if(col.isLastOne) { <small title="Colonne finale">🏆</small> }
+              </div>
+            }
+          </div>
         </div>
       </div>
     </div>
   </header>
 
-  <main class="kanban-board" cdkDropListGroup>
-    @for (column of project.columns; track column.id) {
-      <div class="column">
-        <h3 class="column-header">
+  <main class="kanban-board" 
+        cdkDropList 
+        cdkDropListOrientation="horizontal" 
+        (cdkDropListDropped)="dropColumn($event)"
+        [cdkDropListData]="project.columns">
+    
+    @for (column of project.columns; track column.id; let i = $index) {
+      <div class="column" cdkDrag>
+        <h3 class="column-header" cdkDragHandle>
           <span class="dot" [style.background-color]="column.color"></span>
           {{ column.name }}
           <span class="badge">{{ column.tasks.length }}</span>
         </h3>
 
         <div class="drop-list"
+            [id]="column.id"
             cdkDropList
             [cdkDropListData]="column.tasks"
-            (cdkDropListDropped)="drop($event)">
+            [cdkDropListConnectedTo]="getConnectedLists()"
+            (cdkDropListDropped)="dropTask($event)">
 
           @for (task of column.tasks; track task.id) {
             <div class="task-card" cdkDrag (click)="openTask(task)">
-              <div class="card-tags">
-                <span class="category-tag">{{ task.category }}</span>
-                <span class="priority-tag" [class.high]="task.priority === 'HIGH'">
-                  {{ task.priority }}
-                </span>
-              </div>
-
               <p class="task-name">{{ task.title }}</p>
-
               <div class="card-footer">
                 <span class="assignee">👤 {{ task.assignedTo }}</span>
-                <span class="date">🕒 {{ task.deadline }}</span>
+                <span class="due-date">📅 {{ task.deadline }}</span>
               </div>
             </div>
           }
@@ -87,4 +85,23 @@
       </div>
     }
   </main>
+
+  @if (showColumnModal) {
+    <div class="modal-overlay">
+      <div class="modal-card">
+        <h3>Nouvelle Colonne</h3>
+        <input type="text" [(ngModel)]="newColName" placeholder="Nom (ex: Terminé, Archive...)">
+        
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="newColIsLast">
+          Définir comme colonne finale
+        </label>
+
+        <div class="modal-actions">
+          <button (click)="closeModal()">Annuler</button>
+          <button class="btn-confirm" (click)="confirmAddColumn()">Créer</button>
+        </div>
+      </div>
+    </div>
+  }
 </div>

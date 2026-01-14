@@ -1,5 +1,5 @@
 :host {
-  /* Variables de couleurs et thèmes */
+  /* Couleurs */
   --bg-page: #f8fafc;
   --bg-card: #ffffff;
   --primary: #4f46e5;
@@ -24,8 +24,6 @@
 
 /* --- HEADER NAVIGATION --- */
 .header-nav { 
-  display: flex; 
-  justify-content: space-between; 
   margin-bottom: 20px; 
 }
 
@@ -38,7 +36,7 @@
   font-size: 14px;
 }
 
-/* --- HEADER CONTENT (Infos Projet) --- */
+/* --- INFOS PROJET --- */
 .header-content { 
   display: flex; 
   justify-content: space-between; 
@@ -118,7 +116,6 @@
   border-radius: 12px; 
   font-weight: 600; 
   cursor: pointer;
-  transition: opacity 0.2s;
 }
 
 .btn-secondary { 
@@ -129,12 +126,9 @@
   border-radius: 12px; 
   font-weight: 600; 
   cursor: pointer;
-  transition: all 0.2s;
 }
 
-.btn-secondary:hover { background: #f8fafc; border-color: #cbd5e1; }
-
-/* --- RIGHT PANEL (Stats & Members) --- */
+/* --- STATS & MEMBRES --- */
 .right-panel { 
   display: flex; 
   flex-direction: column; 
@@ -162,7 +156,7 @@
   width: 36px; 
   height: 36px; 
   border-radius: 50%; 
-  background: #e2e8f0; 
+  background: #4f46e5; 
   border: 2px solid white; 
   margin-left: -10px; 
   display: flex; 
@@ -170,17 +164,9 @@
   justify-content: center; 
   font-size: 12px; 
   font-weight: 700;
-  color: var(--text-main);
+  color: white;
 }
 
-.avatar.add-btn { 
-  background: #f1f5f9; 
-  color: var(--primary); 
-  border: 2px dashed #cbd5e1; 
-  cursor: pointer; 
-}
-
-/* Carte résumé widget */
 .summary-card { 
   background: white; 
   padding: 14px 28px; 
@@ -198,13 +184,16 @@
   display: flex; 
   gap: 24px; 
   padding-bottom: 20px;
-  overflow-x: auto; /* Scroll horizontal si nouvelles colonnes */
+  overflow-x: auto; 
   align-items: flex-start;
   width: 100%;
 }
 
 .column { 
   width: 100%;
+  background: #f1f5f9;
+  padding: 16px;
+  border-radius: 20px;
 }
 
 .column-header { 
@@ -216,28 +205,32 @@
   align-items: center; 
   gap: 10px;
   text-transform: uppercase;
+  cursor: grab;
 }
 
+.column-header:active { cursor: grabbing; }
+
 .badge { 
-  background: #f1f5f9; 
+  background: white; 
   padding: 2px 10px; 
   border-radius: 10px; 
   font-size: 11px; 
   margin-left: auto;
 }
 
+.dot { 
+  width: 10px; 
+  height: 10px; 
+  border-radius: 50%; 
+}
+
+/* Zone de drop des tâches */
 .drop-list { 
-  min-height: 500px; 
-  border-radius: 16px;
+  min-height: 400px; 
+  border-radius: 12px;
 }
 
-/* État vide d'une colonne (Dashed) */
-.drop-list:empty, .drop-list.cdk-drop-list-empty {
-  border: 2px dashed #e2e8f0;
-  background-color: rgba(226, 232, 240, 0.15);
-}
-
-/* --- TASK CARD --- */
+/* --- TÂCHES --- */
 .task-card { 
   background: white; 
   padding: 18px; 
@@ -246,79 +239,61 @@
   border: 1px solid var(--border-color); 
   cursor: grab; 
   box-shadow: 0 2px 8px rgba(0,0,0,0.02); 
-  transition: transform 0.1s, box-shadow 0.2s;
-}
-
-.task-card:hover { 
-  box-shadow: 0 8px 16px rgba(0,0,0,0.05); 
-  transform: translateY(-2px);
-}
-
-.task-card:active { cursor: grabbing; }
-
-.card-tags { display: flex; justify-content: space-between; margin-bottom: 14px; }
-
-.category-tag { 
-  font-size: 10px; 
-  font-weight: 800; 
-  color: #94a3b8; 
-  letter-spacing: 0.5px;
-}
-
-.priority-tag { 
-  font-size: 10px; 
-  font-weight: 800; 
-  padding: 3px 10px; 
-  border-radius: 6px; 
-  background: #f8fafc; 
-}
-
-.priority-tag.high { 
-  color: var(--red); 
-  background: #fef2f2; 
 }
 
 .task-name { 
   font-size: 15px; 
   font-weight: 600; 
-  margin: 0 0 18px 0; 
-  color: var(--text-main); 
-  line-height: 1.4;
+  margin: 0 0 12px 0; 
 }
 
 .card-footer { 
   display: flex; 
   justify-content: space-between; 
-  font-size: 12px; 
+  font-size: 11px; 
   color: var(--text-muted); 
-  border-top: 1px solid #f8fafc; 
-  padding-top: 14px; 
+  padding-top: 10px;
+  border-top: 1px solid #f8fafc;
 }
 
-.footer-item { display: flex; align-items: center; gap: 6px; }
-
-/* Point de couleur dynamique (Service) */
-.dot { 
-  width: 10px; 
-  height: 10px; 
-  border-radius: 50%; 
-  display: inline-block; 
+/* --- MODAL --- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
 }
 
-/* --- CDK DRAG & DROP UTILS --- */
-.cdk-drag-preview { 
-  box-shadow: 0 15px 35px rgba(0,0,0,0.12) !important; 
+.modal-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+}
+
+.modal-card input {
+  padding: 12px;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.checkbox-label { display: flex; gap: 10px; font-weight: 600; font-size: 13px; cursor: pointer; }
+
+/* --- DRAG & DROP CDK --- */
+.cdk-drag-preview {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15) !important;
   border-radius: 16px;
+  background: white;
 }
 
-.cdk-drag-placeholder { 
-  opacity: 0; 
-}
-
-.cdk-drag-animating { 
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1); 
-}
-
-.drop-list.cdk-drop-list-dragging .task-card:not(.cdk-drag-placeholder) {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+.cdk-drag-placeholder {
+  opacity: 0.2;
 }

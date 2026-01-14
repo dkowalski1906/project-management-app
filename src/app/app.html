@@ -28,7 +28,7 @@
     </aside>
   }
 
-  <header class="max-w-7xl mx-auto p-4 md:p-8 flex justify-between items-center">
+  <header class="max-w-7xl mx-auto px-4 md:px-8 pt-4 md:pt-8 pb-2 flex justify-between items-center">
     <button (click)="isSidebarOpen = true" class="p-3 rounded-2xl bg-white dark:bg-slate-800 shadow-sm hover:bg-slate-100 transition-all">
       <lucide-icon [img]="icons.menu" size="28"></lucide-icon>
     </button>
@@ -38,7 +38,7 @@
     </button>
   </header>
 
-  <main class="max-w-7xl mx-auto p-4 md:p-8">
+  <main class="max-w-7xl mx-auto px-4 md:px-8 pt-2 pb-8">
     <router-outlet />
   </main>
 </div>
