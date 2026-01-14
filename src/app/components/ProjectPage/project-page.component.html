@@ -1,0 +1,93 @@
+<div class="project-page">
+  <header class="project-header">
+    <div class="header-nav">
+      <button class="btn-back">← Retour</button>
+      <div class="nav-right">
+         <button class="theme-toggle">🌙</button>
+      </div>
+    </div>
+
+    <div class="header-content">
+      <div class="left-panel">
+        <div class="title-row">
+          <h1>{{ project.title }}</h1>
+          <span class="deadline-badge">📅 Deadline : {{ project.deadline }}</span>
+        </div>
+
+        <p class="description">{{ project.description }}</p>
+
+        <div class="progress-section">
+          <div class="progress-bar-container">
+            <div class="progress-fill" [style.width.%]="project.progress"></div>
+          </div>
+          <span class="progress-percent">{{ project.progress }}%</span>
+        </div>
+
+        <div class="action-buttons">
+          <button class="btn-primary">+ Nouvelle tâche</button>
+          <button class="btn-secondary" (click)="addNewColumn()">📋 Nouvelle colonne</button>
+        </div>
+      </div>
+
+      <div class="right-panel">
+        <div class="stat-group">
+          <span class="label">PARTICIPANTS</span>
+          <div class="member-list">
+            @for (member of project.members; track member) {
+              <div class="avatar">{{ member[0] }}</div>
+            }
+            <div class="avatar add-btn">+</div>
+          </div>
+        </div>
+
+        <div class="stat-group">
+          <span class="label">RÉSUMÉ DES TÂCHES</span>
+          <div class="summary-card">
+          @for (col of project.columns; track col.id) {
+            <div class="summary-item">
+              <span class="count">{{ col.tasks.length }}</span>
+              <span class="dot" [style.background-color]="col.color"></span>
+            </div>
+          }
+        </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="kanban-board" cdkDropListGroup>
+    @for (column of project.columns; track column.id) {
+      <div class="column">
+        <h3 class="column-header">
+          <span class="dot" [style.background-color]="column.color"></span>
+          {{ column.name }}
+          <span class="badge">{{ column.tasks.length }}</span>
+        </h3>
+
+        <div class="drop-list"
+            cdkDropList
+            [cdkDropListData]="column.tasks"
+            (cdkDropListDropped)="drop($event)">
+
+          @for (task of column.tasks; track task.id) {
+            <div class="task-card" cdkDrag (click)="openTask(task)">
+              <div class="card-tags">
+                <span class="category-tag">{{ task.category }}</span>
+                <span class="priority-tag" [class.high]="task.priority === 'HIGH'">
+                  {{ task.priority }}
+                </span>
+              </div>
+
+              <p class="task-name">{{ task.title }}</p>
+
+              <div class="card-footer">
+                <span class="assignee">👤 {{ task.assignee }}</span>
+                <span class="date">🕒 {{ task.date }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    }
+  </main>
+</div>

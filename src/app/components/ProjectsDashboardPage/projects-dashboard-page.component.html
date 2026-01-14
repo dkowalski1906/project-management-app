@@ -1,0 +1,520 @@
+<div
+  class="min-h-screen font-sans text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-950"
+>
+  <!-- Sidebar -->
+  @if (isSidebarOpen) {
+    <div
+      class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
+      (click)="closeSidebar()"
+    ></div>
+    <aside
+      class="fixed top-0 left-0 h-full w-72 bg-white dark:bg-slate-900 shadow-2xl z-50 flex flex-col"
+    >
+      <div
+        class="p-6 flex justify-between items-center border-b dark:border-slate-800"
+      >
+        <h2 class="font-bold text-2xl dark:text-white">Menu</h2>
+        <button
+          type="button"
+          (click)="closeSidebar()"
+          class="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800"
+        >
+          <lucide-icon [img]="icons.x" size="20"></lucide-icon>
+        </button>
+      </div>
+
+      <div class="p-4 space-y-3 flex-1">
+        <button
+          type="button"
+          (click)="goToDashboard(); closeSidebar()"
+          class="w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 font-bold transition-all"
+        >
+          <lucide-icon [img]="icons.menu" size="22"></lucide-icon>
+          Projets
+        </button>
+
+        <button
+          type="button"
+          (click)="openCreateProjectView(); closeSidebar()"
+          class="w-full flex items-center gap-4 px-5 py-4 rounded-2xl text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 font-bold transition-all"
+        >
+          <lucide-icon [img]="icons.plusCircle" size="22"></lucide-icon>
+          Nouveau projet
+        </button>
+      </div>
+
+      <div
+        class="p-6 border-t dark:border-slate-800 flex items-center gap-3 mt-auto"
+      >
+        <div
+          class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold"
+        >
+          A
+        </div>
+        <div>
+          <p class="font-bold dark:text-white text-sm">Alexandre</p>
+          <p class="text-xs text-slate-500">Admin</p>
+        </div>
+      </div>
+    </aside>
+  }
+
+  <!-- Main content -->
+  <div
+    class="max-w-7xl mx-auto p-4 md:p-8 min-h-screen flex flex-col animate-in"
+  >
+    <header class="flex justify-between items-center mb-10">
+      <button
+        type="button"
+        (click)="openSidebar()"
+        class="p-3 rounded-2xl bg-white dark:bg-slate-800 shadow-sm hover:bg-slate-100 dark:hover:bg-slate-700 transition-all active:scale-95"
+      >
+        <lucide-icon [img]="icons.menu" size="28"></lucide-icon>
+      </button>
+
+      <button
+        type="button"
+        (click)="toggleDarkMode()"
+        class="p-3 rounded-2xl bg-white dark:bg-slate-800 border-2 dark:border-slate-700 shadow-sm transition-all"
+      >
+        <lucide-icon
+          [img]="isDarkMode ? icons.sun : icons.moon"
+          size="20"
+        ></lucide-icon>
+      </button>
+    </header>
+
+    <!-- Views -->
+    @if (view === 'create_project') {
+      <!-- Create project view -->
+      <div class="flex flex-col h-full max-w-2xl mx-auto w-full pt-4">
+        <button
+          type="button"
+          (click)="goToDashboard()"
+          class="flex items-center gap-2 text-slate-500 font-bold mb-6 hover:text-blue-600 transition-colors"
+        >
+          <lucide-icon [img]="icons.arrowLeft" size="18"></lucide-icon>
+          Retour
+        </button>
+
+        <div
+          class="bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-100 dark:border-slate-700 shadow-xl p-8"
+        >
+          <h1 class="text-3xl font-bold text-slate-800 dark:text-white mb-8">
+            Créer un nouveau projet
+          </h1>
+
+          <form class="space-y-8" (ngSubmit)="createProject()">
+            <div>
+              <label
+                class="text-xs font-bold text-slate-400 uppercase mb-2 block tracking-wider"
+                for="title"
+              >Titre du projet</label
+              >
+              <input
+                id="title"
+                type="text"
+                required
+                [(ngModel)]="newProjectTitle"
+                name="title"
+                class="w-full px-6 py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-blue-500 transition-all font-medium text-lg"
+                placeholder="Ex: Projet Spring Boot"
+              />
+            </div>
+
+            <div>
+              <label
+                class="text-xs font-bold text-slate-400 uppercase mb-2 block tracking-wider"
+                for="description"
+              >Description</label
+              >
+              <textarea
+                id="description"
+                rows="4"
+                [(ngModel)]="newProjectDescription"
+                name="description"
+                class="w-full px-6 py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-blue-500 transition-all font-medium"
+                placeholder="Décrivez les objectifs et technos..."
+              ></textarea>
+            </div>
+
+            <div>
+              <label
+                class="text-xs font-bold text-slate-400 uppercase mb-2 block tracking-wider"
+                for="deadline"
+              >Date limite (Deadline)</label
+              >
+              <input
+                id="deadline"
+                type="date"
+                required
+                [(ngModel)]="newProjectDeadline"
+                name="deadline"
+                class="w-full px-6 py-4 rounded-2xl border-2 border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-white focus:outline-none focus:border-blue-500 transition-all font-medium"
+              />
+            </div>
+
+            <button
+              type="submit"
+              class="w-full py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-xl shadow-blue-500/20 transition-all active:scale-95 flex items-center justify-center gap-2"
+            >
+              <lucide-icon [img]="icons.plusCircle" size="20"></lucide-icon>
+              Créer le projet
+            </button>
+          </form>
+        </div>
+      </div>
+    } @else if (view === 'project_detail' && selectedProject) {
+      <!-- Project detail view -->
+      <div class="flex flex-col h-full">
+        <button
+          type="button"
+          (click)="goToDashboard()"
+          class="flex items-center gap-2 text-slate-500 font-bold mb-6 hover:text-blue-600 transition-colors"
+        >
+          <lucide-icon [img]="icons.arrowLeft" size="18"></lucide-icon>
+          Retour
+        </button>
+
+        <div class="flex flex-col md:flex-row justify-between gap-8 mb-8">
+          <div class="flex-1 space-y-4">
+            <div class="flex items-center gap-4 flex-wrap">
+              <h1 class="text-4xl font-bold text-slate-800 dark:text-white">
+                {{ selectedProject!.title }}
+              </h1>
+              <div
+                class="flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-bold border border-rose-100 dark:border-rose-800 bg-rose-50 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400"
+              >
+                <lucide-icon [img]="icons.clock" size="16"></lucide-icon>
+                Deadline :
+                {{ formatDeadline(selectedProject!.deadline, true) }}
+              </div>
+            </div>
+
+            <p
+              class="text-slate-600 dark:text-slate-400 leading-relaxed max-w-3xl"
+            >
+              {{ selectedProject!.description }}
+            </p>
+
+            <div class="max-w-md">
+              <div class="relative w-full mt-6 mb-2 select-none">
+                <div
+                  class="absolute transition-all duration-1000 ease-out flex flex-col items-center w-10 z-10"
+                  [style.left.%]="selectedProject!.progress"
+                  style="transform: translateX(-50%); bottom: 100%"
+                >
+                  <div
+                    class="bg-blue-600 dark:bg-blue-500 text-white text-[10px] font-bold py-1 px-1.5 rounded shadow-sm leading-none min-w-[32px] text-center"
+                  >
+                    {{ selectedProject!.progress }}%
+                  </div>
+                  <div
+                    class="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-blue-600 dark:border-t-blue-500 -mt-[1px]"
+                  ></div>
+                </div>
+
+                <div
+                  class="h-3 bg-slate-100 dark:bg-slate-700/50 rounded-full overflow-hidden shadow-inner w-full"
+                >
+                  <div
+                    class="h-full bg-blue-500 dark:bg-blue-600 shadow-[2px_0_10px_rgba(59,130,246,0.4)] transition-all duration-1000 ease-out"
+                    [style.width.%]="selectedProject!.progress"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="w-full md:w-80 bg-white dark:bg-slate-800 rounded-3xl border-2 border-slate-100 dark:border-slate-700 shadow-sm p-6 space-y-4"
+          >
+            <p
+              class="text-xs font-bold text-slate-400 uppercase tracking-widest"
+            >
+              Résumé des tâches
+            </p>
+            <div class="flex items-center gap-4">
+              <div class="flex flex-col text-center">
+                <span
+                  class="text-sm font-bold text-slate-600 dark:text-slate-300"
+                >{{ selectedProject!.stats.todo }}</span
+                >
+                <span class="text-[11px] text-slate-400">À faire</span>
+              </div>
+              <div class="flex flex-col text-center">
+                <span
+                  class="text-sm font-bold text-slate-600 dark:text-slate-300"
+                >{{ selectedProject!.stats.doing }}</span
+                >
+                <span class="text-[11px] text-slate-400">En cours</span>
+              </div>
+              <div class="flex flex-col text-center">
+                <span
+                  class="text-sm font-bold text-slate-600 dark:text-slate-300"
+                >{{ selectedProject!.stats.done }}</span
+                >
+                <span class="text-[11px] text-slate-400">Terminées</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <!-- Dashboard view -->
+      <div class="flex-1 flex flex-col">
+        <div
+          class="mb-10 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6"
+        >
+          <div>
+            <h1
+              class="text-4xl md:text-5xl font-light text-slate-400 dark:text-slate-500 tracking-tight mb-2"
+            >
+              Hello
+              <span class="font-bold text-slate-800 dark:text-white">
+                Alex!
+              </span>
+            </h1>
+            <p class="text-xl text-blue-600 dark:text-blue-400 font-medium">
+              Voici tes projets
+            </p>
+          </div>
+
+          <button
+            type="button"
+            (click)="openCreateProjectView()"
+            class="flex items-center gap-2 px-6 py-3.5 bg-blue-600 text-white rounded-2xl font-bold shadow-lg shadow-blue-500/20 active:scale-95 transition-all"
+          >
+            <lucide-icon [img]="icons.plusCircle" size="20"></lucide-icon>
+            Nouveau projet
+          </button>
+        </div>
+
+        <div class="flex gap-4 mb-8">
+          <div class="relative flex-1 group">
+            <input
+              type="text"
+              placeholder="Rechercher un projet..."
+              class="w-full pl-12 pr-4 py-4 rounded-2xl border-2 dark:bg-slate-900 dark:border-slate-700 dark:text-white outline-none focus:border-blue-500 transition-all shadow-sm"
+              [(ngModel)]="searchTerm"
+            />
+            <lucide-icon
+              [img]="icons.search"
+              size="20"
+              class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"
+            ></lucide-icon>
+          </div>
+
+          <button
+            type="button"
+            (click)="openFilters()"
+            class="p-4 bg-white dark:bg-slate-800 border-2 rounded-2xl dark:border-slate-700 dark:text-white hover:text-blue-500 transition-all shadow-sm"
+          >
+            <lucide-icon [img]="icons.filter" size="20"></lucide-icon>
+          </button>
+        </div>
+
+        @for (project of filteredProjects; track project.id) {
+          <div
+            class="bg-white dark:bg-slate-800 rounded-2xl border-2 border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-lg transition-all duration-300 p-6 mb-5 cursor-pointer"
+            (click)="openProject(project)"
+          >
+            <div
+              class="flex flex-col md:flex-row justify-between items-start mb-2 gap-4"
+            >
+              <div class="flex-1 min-w-0 pr-4">
+                <h3
+                  class="text-xl font-bold text-slate-800 dark:text-slate-100 mb-1 truncate"
+                >
+                  {{ project.title }}
+                </h3>
+                <p
+                  class="text-slate-500 dark:text-slate-400 text-sm font-medium leading-relaxed mb-3 line-clamp-2"
+                >
+                  {{ project.description }}
+                </p>
+
+                <div
+                  class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-bold"
+                  [ngClass]="deadlineBadgeClass(project)"
+                >
+                  <lucide-icon [img]="icons.clock" size="12"></lucide-icon>
+                  {{ deadlineLabel(project) }}
+                </div>
+              </div>
+
+              <div class="flex flex-col items-end gap-3 min-w-fit">
+                <div
+                  class="flex items-center gap-4 bg-slate-50 dark:bg-slate-900/50 px-3 py-1.5 rounded-xl border border-slate-100 dark:border-slate-700/50"
+                >
+                  <div class="flex items-center gap-1.5">
+                    <span
+                      class="font-bold text-slate-600 dark:text-slate-300 text-sm"
+                    >{{ project.stats.todo }}</span
+                    >
+                    <span
+                      class="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-sm"
+                    ></span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <span
+                      class="font-bold text-slate-600 dark:text-slate-300 text-sm"
+                    >{{ project.stats.doing }}</span
+                    >
+                    <span
+                      class="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-sm"
+                    ></span>
+                  </div>
+                  <div class="flex items-center gap-1.5">
+                    <span
+                      class="font-bold text-slate-600 dark:text-slate-300 text-sm"
+                    >{{ project.stats.done }}</span
+                    >
+                    <span
+                      class="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-sm"
+                    ></span>
+                  </div>
+                </div>
+
+                <div class="flex items-center -space-x-2 pl-2">
+                  <div
+                    class="w-8 h-8 rounded-full bg-slate-200 dark:bg-slate-700 border-2 border-white dark:border-slate-800 flex items-center justify-center"
+                  >
+                    <lucide-icon
+                      [img]="icons.user"
+                      size="14"
+                      class="text-slate-500 dark:text-slate-400"
+                    ></lucide-icon>
+                  </div>
+                  <div
+                    class="w-8 h-8 rounded-full bg-blue-100 dark:bg-blue-900/40 border-2 border-white dark:border-slate-800 flex items-center justify-center text-[10px] font-bold text-blue-700 dark:text-blue-300"
+                  >
+                    {{ project.teamCount }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-1">
+              <div class="relative w-full mt-4 mb-1 select-none">
+                <div
+                  class="absolute transition-all duration-1000 ease-out flex flex-col items-center w-10 z-10"
+                  [style.left.%]="project.progress"
+                  style="transform: translateX(-50%); bottom: 100%"
+                >
+                  <div
+                    class="bg-blue-600 dark:bg-blue-500 text-white text-[10px] font-bold py-1 px-1.5 rounded shadow-sm leading-none min-w-[32px] text-center"
+                  >
+                    {{ project.progress }}%
+                  </div>
+                  <div
+                    class="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[6px] border-t-blue-600 dark:border-t-blue-500 -mt-[1px]"
+                  ></div>
+                </div>
+
+                <div
+                  class="h-3 bg-slate-100 dark:bg-slate-700/50 rounded-full overflow-hidden shadow-inner w-full"
+                >
+                  <div
+                    class="h-full bg-blue-500 dark:bg-blue-600 shadow-[2px_0_10px_rgba(59,130,246,0.4)] transition-all duration-1000 ease-out"
+                    [style.width.%]="project.progress"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        } @empty {
+          <p class="text-sm text-slate-500">
+            Aucun projet ne correspond aux filtres.
+          </p>
+        }
+      </div>
+    }
+
+    <!-- Filter modal -->
+    @if (isFilterOpen) {
+      <div
+        class="fixed inset-0 z-50 flex items-center justify-center animate-in"
+      >
+        <div
+          class="fixed inset-0 bg-black/40 backdrop-blur-sm"
+          (click)="closeFilters()"
+        ></div>
+
+        <div
+          class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl p-6 md:p-8 relative z-10 max-w-lg w-full mx-4 border-2 border-slate-100 dark:border-slate-700"
+        >
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="font-bold text-slate-800 dark:text-white text-xl">
+              Filtres
+            </h3>
+            <button
+              type="button"
+              (click)="closeFilters()"
+              class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors"
+            >
+              <lucide-icon [img]="icons.x" size="20"></lucide-icon>
+            </button>
+          </div>
+
+          <div class="space-y-6">
+            <div>
+              <p
+                class="text-xs font-bold text-slate-400 uppercase mb-3 tracking-wider"
+              >
+                Progression (%)
+              </p>
+              <div class="space-y-3">
+                <div class="flex items-center gap-3">
+                  <span class="text-xs font-bold text-slate-500 w-10">
+                    Min
+                  </span>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    [ngModel]="filters.progressMin"
+                    (ngModelChange)="onProgressMinChange($event)"
+                    class="w-full"
+                  />
+                  <span
+                    class="text-xs font-bold text-slate-700 dark:text-slate-200 w-10 text-right"
+                  >{{ filters.progressMin }}%</span
+                  >
+                </div>
+
+                <div class="flex items-center gap-3">
+                  <span class="text-xs font-bold text-slate-500 w-10">
+                    Max
+                  </span>
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    [ngModel]="filters.progressMax"
+                    (ngModelChange)="onProgressMaxChange($event)"
+                    class="w-full"
+                  />
+                  <span
+                    class="text-xs font-bold text-slate-700 dark:text-slate-200 w-10 text-right"
+                  >{{ filters.progressMax }}%</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 pt-4 border-t border-slate-100 dark:border-slate-700">
+            <button
+              type="button"
+              (click)="closeFilters()"
+              class="w-full py-3 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 shadow-xl shadow-blue-500/20 transition-all active:scale-95"
+            >
+              Fermer
+            </button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>
