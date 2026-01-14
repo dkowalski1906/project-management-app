@@ -79,20 +79,38 @@ export class ProjectsDashboardPageComponent implements OnInit {
     this.loadProjects();
   }
 
-  private loadProjects() {
-    // On mappe le JSON pour garantir que chaque projet a les propriétés attendues par le HTML
+  loadProjects() {
     const rawData = JSON.parse(JSON.stringify(projectsData));
     
-    this.projects = rawData.map((p: any) => ({
-      id: p.id,
-      name: p.name || 'Projet sans nom',
-      description: p.description || '',
-      progress: p.progress ?? 0,
-      deadline: p.deadline || new Date().toISOString(),
-      members: p.members || [],
-      teamCount: p.members?.length || 0,
-      stats: p.stats || { todo: 0, doing: 0, done: 0 }
-    }));
+    this.projects = rawData.map((p: any) => {
+      const cols = p.columns || [];
+
+      const totalTasks = cols.reduce((acc: number, col: any) => {
+        return acc + (col.tasks ? col.tasks.length : 0);
+      }, 0);
+
+      const finalColumn = cols.find((c: any) => c.isLastOne === true);
+      const doneCount = finalColumn?.tasks?.length || 0;
+
+      const calculatedProgress = totalTasks > 0 
+        ? Math.round((doneCount / totalTasks) * 100) 
+        : 0;
+
+      const todoCount = cols.find((c: any) => c.id === 'toDo' || c.id === 'todo')?.tasks?.length || 0;
+      const doingCount = cols.find((c: any) => c.id === 'inProgress' || c.id === 'doing')?.tasks?.length || 0;
+
+      return {
+        ...p,
+        name: p.name || 'Projet sans nom',
+        progress: calculatedProgress, 
+        teamCount: p.members?.length || 0,
+        stats: {
+          todo: todoCount,
+          doing: doingCount,
+          done: doneCount 
+        }
+      };
+    });
   }
 
   // --- Données filtrées pour l'affichage ---
@@ -115,12 +133,6 @@ export class ProjectsDashboardPageComponent implements OnInit {
   toggleDarkMode(): void {
     this.isDarkMode = !this.isDarkMode;
     document.documentElement.classList.toggle('dark', this.isDarkMode);
-  }
-
-  private resetForm() {
-    this.newProjectTitle = '';
-    this.newProjectDescription = '';
-    this.newProjectDeadline = new Date().toISOString().split('T')[0];
   }
 
   // --- Helpers de rendu (utilisés dans le HTML) ---
