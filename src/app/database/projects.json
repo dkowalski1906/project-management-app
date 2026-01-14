@@ -1,0 +1,29 @@
+[
+    {
+        "id": 1,
+        "name": "Project Alpha",
+        "description": "This is the first project.",
+        "deadline": "31/12/2026",
+        "members": ["Alice Martin", "Marc Lefebvre"],
+        "columns": [
+            {
+                "id": "toDo",
+                "name": "À faire",
+                "color": "#FF5733",
+                "tasks": [1, 2]
+            },
+            {
+                "id": "inProgress",
+                "name": "En cours",
+                "color": "#33C3FF",
+                "tasks": [3]
+            },
+            {
+                "id": "done",
+                "name": "Terminé",  
+                "color": "#75FF33",
+                "tasks": []
+            }
+        ]
+    }
+]

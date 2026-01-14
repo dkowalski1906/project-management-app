@@ -1,12 +1,10 @@
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { CreateProjectPage } from './components/create-project-page/create-project-page';
-import { TaskPage } from './components/task-page/task-page';
+import { RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatSlideToggleModule, TaskPage],
+  imports: [MatSlideToggleModule, RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

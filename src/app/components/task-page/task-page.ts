@@ -1,16 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from "@angular/material/icon";
 import { CommentaryComponent, Comment } from './commentary/commentary';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 // Import du JSON
 import tasksData from '../../database/tasks.json'; 
 import commentariesData from '../../database/commentaries.json'; 
 
 export interface Task {
+  id: number;
   title: string;
-  number: number;
   description: string;
   assignedTo: string;
   createdBy: string;
@@ -26,89 +28,52 @@ export interface Task {
   styleUrl: './task-page.css',
 })
 export class TaskPage implements OnInit {
-  
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private location = inject(Location);
+
   taskList: Task[] = []; 
-  @Input() task!: Task;
-
+  task!: Task;
   comments: Comment[] = commentariesData;
-  newCommentText: string = '';
 
-  isEditing: boolean = false;
-  showDeleteConfirm: boolean = false;
+  newCommentText = '';
+  isEditing = false;
+  showDeleteConfirm = false;
   editedTask: Task = {} as Task;
 
-  private readonly STORAGE_KEY = 'app_tasks_v1';
-
-  ngOnInit() {
-    // --- CHANGEMENT ICI ---
-    // À chaque chargement de la page, on force la remise à zéro avec le JSON
-    console.log('♻️ Reset des données depuis le fichier JSON');
-    this.taskList = [...tasksData]; 
-    
-    // On écrase immédiatement le LocalStorage avec ces données "fraîches"
-    this.saveToStorage();
-
-    // Sélection de la tâche par défaut
-    if (!this.task && this.taskList.length > 0) {
-      this.task = this.taskList[0];
-    }
-  }
-
-  // --- Helpers ---
-
-  private saveToStorage() {
-    // Met à jour le stockage du navigateur
-    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.taskList));
+ngOnInit() {
+    this.route.paramMap.subscribe(params => {
+      const id = Number(params.get('id'));
+      // On cherche la tâche directement dans le JSON importé
+      const foundTask = (tasksData as Task[]).find(t => t.id === id);
+      
+      if (foundTask) {
+        this.task = { ...foundTask };
+      } else {
+        this.router.navigate(['/tasks']); 
+      }
+    });
   }
 
   // --- Actions ---
 
-  editButton() {
-    this.editedTask = { ...this.task }; 
+editButton() {
+    this.editedTask = { ...this.task };
     this.isEditing = true;
   }
 
   saveEdit() {
-    const index = this.taskList.findIndex(t => t.number === this.task.number);
-    if (index !== -1) {
-      this.taskList[index] = { ...this.editedTask };
-      this.task = this.taskList[index];
-      
-      // On met à jour le storage pour voir les changements en direct dans l'inspecteur
-      this.saveToStorage();
-    }
+    this.task = { ...this.editedTask };
     this.isEditing = false;
-  }
-
-  deleteButton() {
-    this.showDeleteConfirm = true;
+    // Note: Sans API ou Service, le changement est uniquement local au composant
   }
 
   confirmDelete() {
-    const index = this.taskList.findIndex(t => t.number === this.task.number);
-    if (index !== -1) {
-      this.taskList.splice(index, 1);
-      this.saveToStorage(); // Mise à jour du storage après suppression
-    }
-    
     this.showDeleteConfirm = false;
-    
-    // Redirection
-    if (this.taskList.length > 0) {
-        const newIndex = index < this.taskList.length ? index : index - 1;
-        this.task = this.taskList[newIndex];
-    } else {
-        this.cancelButton();
-    }
+    this.router.navigate(['/tasks']);
   }
 
-  // --- Autres ---
-
-  cancelEdit() { this.isEditing = false; }
-  cancelDelete() { this.showDeleteConfirm = false; }
-  cancelButton() { console.log('Retour arrière'); }
-
-  sendComment(): void {
+  sendComment() {
     if (this.newCommentText.trim()) {
       this.comments.unshift({
         author: 'Moi',
@@ -118,4 +83,14 @@ export class TaskPage implements OnInit {
       this.newCommentText = '';
     }
   }
+
+  cancelButton() {
+    this.isEditing = false;
+    this.location.back();
+  }
+
+  deleteButton() { this.showDeleteConfirm = true; }
+
+  cancelEdit() { this.isEditing = false; }
+  cancelDelete() { this.showDeleteConfirm = false; }
 }
